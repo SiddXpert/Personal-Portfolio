@@ -60,29 +60,30 @@ class _ProjectsSectionState extends State<ProjectsSection>
 
           Text(
             "Real Products. Real Users.",
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
-              fontSize: isMobile ? 32 : isTablet ? 38 : 42,
+              fontSize: isMobile ? 28 : isTablet ? 38 : 42,
               fontWeight: FontWeight.bold,
+              height: 1.2,
             ),
           ),
 
           const SizedBox(height: 14),
 
-          const Text(
+          Text(
             "A selection of production-ready applications.\n"
             "Featured below is one flagship product.",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white60,
-              fontSize: 15,
-              height: 1.6,
+              fontSize: isMobile ? 14 : 15,
+              height: 1.5,
             ),
           ),
 
-          SizedBox(height: isMobile ? 50 : 70),
+          SizedBox(height: isMobile ? 40 : 70),
 
-          /// 🔑 WRAP INSTEAD OF FLEX (SCROLL FIX)
           Wrap(
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
@@ -101,44 +102,42 @@ class _ProjectsSectionState extends State<ProjectsSection>
     );
   }
 
-  // ─────────────────────────────────────────────
-  // PHONE STACK
-  // ─────────────────────────────────────────────
+  // ───────────────── PHONE STACK ─────────────────
 
   Widget _animatedPhoneStack(bool isMobile, bool isTablet) {
-    final double mainW = isMobile ? 190 : isTablet ? 230 : 270;
-    final double mainH = isMobile ? 400 : isTablet ? 480 : 560;
+    final double mainW = isMobile ? 210 : isTablet ? 230 : 270;
+    final double mainH = isMobile ? 430 : isTablet ? 480 : 560;
 
     return AnimatedBuilder(
       animation: _floatCtrl,
       builder: (_, __) {
-        final floatY = sin(_floatCtrl.value * 2 * pi) * 8;
+        final floatY =
+            sin(_floatCtrl.value * 2 * pi) * (isMobile ? 4 : 8);
 
         return Transform.translate(
           offset: Offset(0, floatY),
           child: SizedBox(
-            width: mainW + (isMobile ? 60 : 150),
-            height: mainH + 120,
+            width: mainW + 60,
+            height: mainH + 90,
             child: Stack(
               alignment: Alignment.center,
               children: [
-                /// 🌫 Background glow
                 Container(
-                  width: mainW * 1.5,
-                  height: mainH * 1.5,
+                  width: mainW * 1.4,
+                  height: mainH * 1.4,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        Colors.tealAccent.withOpacity(0.18),
+                        Colors.tealAccent
+                            .withOpacity(isMobile ? 0.12 : 0.18),
                         Colors.transparent,
                       ],
                     ),
                   ),
                 ),
 
-                /// LEFT DEVICE
-                if (!isMobile)
+                if (!isMobile) ...[
                   Transform.translate(
                     offset: const Offset(-110, 40),
                     child: Transform.rotate(
@@ -152,9 +151,6 @@ class _ProjectsSectionState extends State<ProjectsSection>
                       ),
                     ),
                   ),
-
-                /// RIGHT DEVICE
-                if (!isMobile)
                   Transform.translate(
                     offset: const Offset(110, 40),
                     child: Transform.rotate(
@@ -168,15 +164,15 @@ class _ProjectsSectionState extends State<ProjectsSection>
                       ),
                     ),
                   ),
+                ],
 
-                /// CENTER DEVICE (SCROLL-LOCKED)
                 _glassPhone(
                   width: mainW,
                   height: mainH,
                   gradient: _heroGradient(),
                   child: SizedBox(
-                    height: mainH - 40, // 🔑 critical
-                    child: zenitCenterUI(),
+                    height: mainH - 40,
+                    child: zenitCenterUI(isMobile),
                   ),
                 ),
               ],
@@ -187,13 +183,12 @@ class _ProjectsSectionState extends State<ProjectsSection>
     );
   }
 
-  // ─────────────────────────────────────────────
-  // CENTER UI (INTERNAL SCROLL ONLY)
-  // ─────────────────────────────────────────────
+  // ───────────────── CENTER UI ─────────────────
 
-  Widget zenitCenterUI() {
+  Widget zenitCenterUI(bool isMobile) {
     return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+      physics:
+          isMobile ? const ClampingScrollPhysics() : const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(22),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +211,7 @@ class _ProjectsSectionState extends State<ProjectsSection>
             ),
           ),
 
-          const SizedBox(height: 26),
+          const SizedBox(height: 22),
 
           const Text(
             "You don’t have to figure it out alone.",
@@ -224,7 +219,6 @@ class _ProjectsSectionState extends State<ProjectsSection>
               color: Colors.white,
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              height: 1.4,
             ),
           ),
           const SizedBox(height: 10),
@@ -235,19 +229,18 @@ class _ProjectsSectionState extends State<ProjectsSection>
             style: TextStyle(
               color: Colors.white60,
               fontSize: 13,
-              height: 1.55,
+              height: 1.5,
             ),
           ),
 
           const SizedBox(height: 22),
-
           _zenitPoint("🔒 Private & secure conversations"),
           const SizedBox(height: 10),
           _zenitPoint("👨‍⚕️ Certified & verified experts"),
           const SizedBox(height: 10),
           _zenitPoint("⏰ Flexible sessions at your pace"),
 
-          const SizedBox(height: 32),
+          const SizedBox(height: 26),
 
           Container(
             width: double.infinity,
@@ -255,10 +248,7 @@ class _ProjectsSectionState extends State<ProjectsSection>
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
               gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF14F4CC),
-                  Color(0xFF3A7BD5),
-                ],
+                colors: [Color(0xFF14F4CC), Color(0xFF3A7BD5)],
               ),
             ),
             child: const Center(
@@ -280,17 +270,11 @@ class _ProjectsSectionState extends State<ProjectsSection>
   Widget _zenitPoint(String text) {
     return Text(
       text,
-      style: const TextStyle(
-        color: Colors.white70,
-        fontSize: 13,
-        height: 1.4,
-      ),
+      style: const TextStyle(color: Colors.white70, fontSize: 13),
     );
   }
 
-  // ─────────────────────────────────────────────
-  // PROJECT DETAILS
-  // ─────────────────────────────────────────────
+  // ───────────────── PROJECT DETAILS ─────────────────
 
   Widget _projectDetails(bool isMobile) {
     return ConstrainedBox(
@@ -323,22 +307,17 @@ class _ProjectsSectionState extends State<ProjectsSection>
           const Text(
             "A modern wellness application focused on habit building, "
             "mental clarity, and long-term user engagement.",
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 15,
-              height: 1.6,
-            ),
+            style: TextStyle(color: Colors.white70, fontSize: 15, height: 1.6),
           ),
 
           const SizedBox(height: 26),
-
           _feature("Designed & developed end-to-end"),
           _feature("Scalable BLoC architecture"),
           _feature("Production deployment & monitoring"),
           _feature("Live on Android & iOS"),
 
           const SizedBox(height: 34),
-          _storeButtons(),
+          _storeButtons(isMobile),
         ],
       ),
     );
@@ -353,39 +332,31 @@ class _ProjectsSectionState extends State<ProjectsSection>
               size: 18, color: Colors.tealAccent),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 14.5,
-                height: 1.5,
-              ),
-            ),
+            child: Text(text,
+                style: const TextStyle(color: Colors.white70, fontSize: 14.5)),
           ),
         ],
       ),
     );
   }
 
-  Widget _storeButtons() {
-    return Wrap(
-      spacing: 18,
-      runSpacing: 16,
+  Widget _storeButtons(bool isMobile) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _storeButton(
           label: "Google Play",
           icon: Icons.android,
-          gradient: const LinearGradient(
-            colors: [Color(0xFF34A853), Color(0xFF0F9D58)],
-          ),
+          gradient:
+              const LinearGradient(colors: [Color(0xFF34A853), Color(0xFF0F9D58)]),
           onTap: () => _launch(playStoreUrl),
         ),
+        const SizedBox(height: 14),
         _storeButton(
           label: "App Store",
           icon: Icons.apple,
-          gradient: const LinearGradient(
-            colors: [Color(0xFF1C1C1E), Color(0xFF2C2C2E)],
-          ),
+          gradient:
+              const LinearGradient(colors: [Color(0xFF1C1C1E), Color(0xFF2C2C2E)]),
           onTap: () => _launch(appStoreUrl),
         ),
       ],
@@ -402,8 +373,8 @@ class _ProjectsSectionState extends State<ProjectsSection>
       onTap: onTap,
       borderRadius: BorderRadius.circular(18),
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 26, vertical: 16),
+        width: 220,
+        padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           gradient: gradient,
@@ -420,14 +391,11 @@ class _ProjectsSectionState extends State<ProjectsSection>
           children: [
             Icon(icon, color: Colors.white, size: 22),
             const SizedBox(width: 12),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 15,
-              ),
-            ),
+            Text(label,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15)),
           ],
         ),
       ),
@@ -440,10 +408,9 @@ class _ProjectsSectionState extends State<ProjectsSection>
         Text(
           "Other Work",
           style: TextStyle(
-            color: Colors.white70,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+              color: Colors.white70,
+              fontSize: 16,
+              fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 20),
         Wrap(
@@ -460,6 +427,8 @@ class _ProjectsSectionState extends State<ProjectsSection>
       ],
     );
   }
+
+  // ───────────────── HELPERS ─────────────────
 
   Widget _glassPhone({
     required double width,
@@ -481,7 +450,7 @@ class _ProjectsSectionState extends State<ProjectsSection>
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.55),
-              blurRadius: 45,
+              blurRadius: isBackground ? 30 : 40,
               offset: const Offset(0, 28),
             ),
           ],
@@ -530,8 +499,7 @@ class _MiniProjectChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white24),
@@ -540,10 +508,9 @@ class _MiniProjectChip extends StatelessWidget {
       child: Text(
         title,
         style: const TextStyle(
-          color: Colors.white70,
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-        ),
+            color: Colors.white70,
+            fontSize: 13,
+            fontWeight: FontWeight.w600),
       ),
     );
   }

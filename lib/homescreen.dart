@@ -214,73 +214,78 @@ class _HomeScreenState extends State<HomeScreen> {
   // ─────────────────────────────────────────────
   // MODERN GLASS NAVBAR
   // ─────────────────────────────────────────────
-  Widget _glassNavBar(double width, bool isMobile) {
-    final activeIndex = _navIndex(activeSection);
-    final itemWidth = isMobile ? 64.0 : 92.0;
+Widget _glassNavBar(double width, bool isMobile) {
+  final activeIndex = _navIndex(activeSection);
+  final itemWidth = isMobile ? 72.0 : 92.0;
 
-    return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(48),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+  final navContent = SizedBox(
+    height: _navHeight(isMobile),
+    width: itemWidth * sections.length,
+    child: Stack(
+      children: [
+        AnimatedPositioned(
+          duration: const Duration(milliseconds: 260),
+          curve: Curves.easeOutCubic,
+          left: itemWidth * activeIndex,
+          top: 3,
+          bottom: 3,
           child: Container(
-            padding: const EdgeInsets.all(6),
+            width: itemWidth - 8,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(48),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.22),
-              ),
-            ),
-            child: SizedBox(
-              height: _navHeight(isMobile),
-              width: itemWidth * sections.length,
-              child: Stack(
-                children: [
-                  AnimatedPositioned(
-                    duration: const Duration(milliseconds: 260),
-                    curve: Curves.easeOutCubic,
-                    left: itemWidth * activeIndex,
-                    top: 3,
-                    bottom: 3,
-                    child: Container(
-                      width: itemWidth - 8,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        color: Colors.white.withOpacity(0.95),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: List.generate(sections.length, (i) {
-                      return InkWell(
-                        borderRadius: BorderRadius.circular(28),
-                        onTap: () =>
-                            scrollTo(keys[i], sections[i], isMobile),
-                        child: SizedBox(
-                          width: itemWidth,
-                          child: Center(
-                            child: Text(
-                              labels[i],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12.5,
-                                color: activeIndex == i
-                                    ? Colors.black
-                                    : Colors.white.withOpacity(0.85),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                ],
-              ),
+              borderRadius: BorderRadius.circular(32),
+              color: Colors.white.withOpacity(0.95),
             ),
           ),
         ),
+        Row(
+          children: List.generate(sections.length, (i) {
+            return InkWell(
+              borderRadius: BorderRadius.circular(28),
+              onTap: () => scrollTo(keys[i], sections[i], isMobile),
+              child: SizedBox(
+                width: itemWidth,
+                child: Center(
+                  child: Text(
+                    labels[i],
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.5,
+                      color: activeIndex == i
+                          ? Colors.black
+                          : Colors.white.withOpacity(0.85),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
+    ),
+  );
+
+  return Center(
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(48),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+        child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.08),
+            borderRadius: BorderRadius.circular(48),
+            border: Border.all(color: Colors.white.withOpacity(0.22)),
+          ),
+          child: isMobile
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: navContent,
+                )
+              : navContent,
+        ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

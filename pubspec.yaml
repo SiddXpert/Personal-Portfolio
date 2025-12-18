@@ -25,16 +25,9 @@ flutter:
   uses-material-design: true
   
   assets:
-    - assets/flutter1.png
-    - assets/supabase1.png
-    - assets/github1.png
     - assets/p1.jpg
     - assets/p2.jpg
-    - assets/wmountain.jpg
-    - assets/ss1.jpg
-    - assets/ss2.jpg
-    - assets/ss3.jpg
-    - assets/ss4.jpg
     - assets/bg.png
+    - assets/dartduck.png
     - assets/lottie/Welcome.json
 
