@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_portfolio/appbootstrap.dart';
-import 'package:my_portfolio/theme.dart';
+
+import 'package:my_portfolio/widgets/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

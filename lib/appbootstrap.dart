@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_portfolio/bg_image.dart';
-import 'package:my_portfolio/glass_shell.dart';
-import 'package:my_portfolio/homescreen.dart';
-import 'package:my_portfolio/welcome_screen.dart';
+
+import 'package:my_portfolio/screens/homescreen.dart';
+import 'package:my_portfolio/screens/welcome_screen.dart';
+import 'package:my_portfolio/widgets/bg_image.dart';
+import 'package:my_portfolio/widgets/glass_shell.dart';
 
 class AppBootstrap extends StatefulWidget {
   const AppBootstrap({Key? key}) : super(key: key);
